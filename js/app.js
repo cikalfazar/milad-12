@@ -5,6 +5,66 @@ let pageAlign = "right";
 let bgCycle;
 let links;
 let eachNavLink;
+let played = false;
+
+// window.addEventListener('scroll', function (event) {
+//     console.log("scroll");
+//     if (!played) {
+//         play(document.getElementById('tombol-musik'));
+//         played = true;
+//     }
+// });
+window.addEventListener('click', function (event) {
+    console.log("click");
+    if (!played) {
+        play(document.getElementById('tombol-musik'));
+        played = true;
+    }
+});
+
+
+const audio = (() => {
+    let instance = null;
+
+    let createOrGet = () => {
+        if (instance instanceof HTMLAudioElement) {
+            return instance;
+        }
+
+        instance = new Audio();
+        instance.autoplay = true;
+        instance.src = document.getElementById('tombol-musik').getAttribute('data-url');
+        instance.load();
+        instance.currentTime = 0;
+        instance.volume = 1;
+        instance.muted = false;
+        instance.loop = true;
+
+        return instance;
+    }
+
+    return {
+        pause: () => {
+            createOrGet().pause();
+        },
+        play: () => {
+            createOrGet().play();
+        }
+    };
+})();
+
+const play = (btn) => {
+    console.log(btn)
+    if (btn.getAttribute('data-status').toString() != 'true') {
+        btn.setAttribute('data-status', 'true');
+        audio.play();
+        btn.innerHTML = '<i class="fa-solid fa-circle-pause"></i>';
+    } else {
+        btn.setAttribute('data-status', 'false');
+        audio.pause();
+        btn.innerHTML = '<i class="fa-solid fa-circle-play"></i>';
+    }
+};
 
 window.onload = function () {
     $('body').addClass('loaded');

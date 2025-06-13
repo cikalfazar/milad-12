@@ -697,3 +697,10 @@ figure.effect-goliath:hover p {
 .tm-static {
   position: static;
 }
+
+.btn-music {
+  position: fixed;
+  bottom: 9vh;
+  right: 2vh;
+  z-index: 1055;
+}
